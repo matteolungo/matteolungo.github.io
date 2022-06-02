@@ -265,6 +265,10 @@ function newFlag() {
     var positions = [1,2,3,4];
     var choices = [];
 
+    document.getElementById("button1").disabled = false;
+    document.getElementById("button2").disabled = false;
+    document.getElementById("button3").disabled = false;
+    document.getElementById("button4").disabled = false;
     if (lastPress)
         lastPress.className = "btn border btn-lg button btn-light";
     var randomKey = keys[parseInt(Math.random() * keys.length)];
@@ -291,6 +295,10 @@ function newFlag() {
 }
 
 function checkResult() {
+    document.getElementById("button1").disabled = true;
+    document.getElementById("button2").disabled = true;
+    document.getElementById("button3").disabled = true;
+    document.getElementById("button4").disabled = true;
     var answer = event.target.innerHTML;
     if (answer === correctFlag) {
         points++;
