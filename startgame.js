@@ -298,10 +298,10 @@ function checkResult() {
         event.target.className = "btn border btn-lg button btn-success"
         lastPress = event.target;
         setTimeout(() => {newFlag()}, 1300);
-
     } else {
         event.target.className = "btn border btn-lg button btn-danger"
         lastPress = event.target;
+        document.getElementById("pointsResult").innerHTML = points;
         failModal.toggle();
     }
     
