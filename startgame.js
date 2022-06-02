@@ -297,8 +297,7 @@ function checkResult() {
         document.getElementById("points").innerHTML = "Punti: " + points;
         event.target.className = "btn border btn-lg button btn-success"
         lastPress = event.target;
-        sleepSync(1300);
-        newFlag();
+        setTimeout(() => {newFlag()}, 1300);
 
     } else {
         event.target.className = "btn border btn-lg button btn-danger"
