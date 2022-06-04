@@ -252,24 +252,26 @@ const json = {
     "zm": "Zambia",
     "zw": "Zimbabwe"
 }
-var points = 0;
+var score = 0;
 var guessed = [];
+var seconds = 5;
 const values = Object.values(json);
 const keys = Object.keys(json);
 var failModal = new bootstrap.Modal(document.getElementById("failModal"));
-var correctFlag, lastPress, timer, interval;
+var correctFlag, lastPress, timer, interval, points;
 
 function newFlag() {
 
     var positions = [1, 2, 3, 4];
     var choices = [];
-    var seconds = 10;
+    seconds = 5;
 
     document.getElementById("button1").disabled = false;
     document.getElementById("button2").disabled = false;
     document.getElementById("button3").disabled = false;
     document.getElementById("button4").disabled = false;
     document.getElementById("timer").innerHTML = "Tempo: " + seconds;
+    document.getElementById("points").innerHTML = "";
     if (lastPress)
         lastPress.className = "btn border btn-lg button btn-light";
 
@@ -300,11 +302,11 @@ function newFlag() {
     }, 1000);
 
     timer = setTimeout(() => {
-        document.getElementById("pointsResult").innerHTML = points;
+        document.getElementById("scoreResult").innerHTML = score;
         failModal.toggle();
         clearInterval(interval);
-    }, 10000);
-    
+    }, 5000);
+
 }
 
 function checkResult() {
@@ -314,15 +316,23 @@ function checkResult() {
     document.getElementById("button4").disabled = true;
     var answer = event.target.innerHTML;
     if (answer === correctFlag) {
-        points++;
-        document.getElementById("points").innerHTML = "Punti: " + points;
+        if (seconds > 4) {
+            points = 3;
+        } else if (seconds > 2) {
+            points = 2;
+        } else {
+            points = 1;
+        }
+        score += points;
+        document.getElementById("score").innerHTML = "Punti: " + score;
+        document.getElementById("points").innerHTML = "+ " + points;
         event.target.className = "btn border btn-lg button btn-success"
         lastPress = event.target;
         setTimeout(() => { newFlag() }, 1300);
     } else {
         event.target.className = "btn border btn-lg button btn-danger"
         lastPress = event.target;
-        document.getElementById("pointsResult").innerHTML = points;
+        document.getElementById("scoreResult").innerHTML = score;
         failModal.toggle();
     }
     clearTimeout(timer);
@@ -330,8 +340,8 @@ function checkResult() {
 }
 
 function restart() {
-    points = 0;
-    document.getElementById("points").innerHTML = "Punti: " + points;
+    score = 0;
+    document.getElementById("score").innerHTML = "Punti: " + score;
     guessed = [];
     failModal.hide();
     newFlag();
@@ -339,7 +349,7 @@ function restart() {
 
 const sleepSync = (ms) => {
     const end = new Date().getTime() + ms;
-    while (new Date().getTime() < end) { /* do nothing */ }
+    while (new Date().getTime() < end) {}
 }
 
 window.onload = function main() {

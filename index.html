@@ -33,8 +33,14 @@
         font-size: large;
     }
 
-    .points {
+    .score {
         margin-left: 15px;
+        margin-top: 5px;
+        margin-bottom: 0px;
+    }
+
+    .points {
+        color: #198754;
         margin-top: 5px;
         margin-bottom: 0px;
     }
@@ -54,7 +60,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body mx-auto">
-                <p class="fs-3">Hai totalizzato <span id="pointsResult"></span> punti</p>
+                <p class="fs-3">Hai totalizzato <span id="scoreResult"></span> punti</p>
             </div>
             <div class="mx-auto mb-3">
                 <button id="restartButton" type="button" class="btn btn-lg btn-dark mx-auto">Rigioca</button>
@@ -69,8 +75,9 @@
 </head>
 
 <body>
-    <div class="d-flex">
-        <p id="points" class="fs-2 points">Punti: 0</p>
+    <div class="d-flex justify-content-between">
+        <p id="score" class="fs-2 score">Punti: 0</p>
+        <p id="points" class="fs-2 ms-auto fw-bold points"></p>
         <p id="timer" class="fs-2 ms-auto timer">Tempo: 10</p>
     </div>
     
