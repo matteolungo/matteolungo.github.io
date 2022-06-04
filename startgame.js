@@ -254,44 +254,57 @@ const json = {
 }
 var points = 0;
 var guessed = [];
-var correctFlag;
 const values = Object.values(json);
 const keys = Object.keys(json);
-var failModal= new bootstrap.Modal(document.getElementById("failModal"));
-var lastPress;
+var failModal = new bootstrap.Modal(document.getElementById("failModal"));
+var correctFlag, lastPress, timer, interval;
 
 function newFlag() {
 
-    var positions = [1,2,3,4];
+    var positions = [1, 2, 3, 4];
     var choices = [];
+    var seconds = 10;
 
     document.getElementById("button1").disabled = false;
     document.getElementById("button2").disabled = false;
     document.getElementById("button3").disabled = false;
     document.getElementById("button4").disabled = false;
+    document.getElementById("timer").innerHTML = "Tempo: " + seconds;
     if (lastPress)
         lastPress.className = "btn border btn-lg button btn-light";
+
     var randomKey = keys[parseInt(Math.random() * keys.length)];
     while (guessed.includes(randomKey)) {
         randomKey = keys[parseInt(Math.random() * keys.length)];
     }
     document.getElementById("flag").src = "flags/" + randomKey + ".png";
-
     correctFlag = json[randomKey];
     choices.push(correctFlag);
     var randomPosition = parseInt(Math.random() * positions.length) + 1;
     positions = positions.filter(p => p !== randomPosition);
-    document.getElementById("button"+randomPosition).innerHTML = correctFlag;
-    
+    document.getElementById("button" + randomPosition).innerHTML = correctFlag;
+
     while (choices.length < 4) {
         var randomValue = values[parseInt(Math.random() * values.length)];
         if (!choices.includes(randomValue)) {
             choices.push(randomValue);
             var randomPosition = positions[parseInt(Math.random() * positions.length)];
             positions = positions.filter(p => p !== randomPosition);
-            document.getElementById("button"+randomPosition).innerHTML = randomValue;
+            document.getElementById("button" + randomPosition).innerHTML = randomValue;
         }
     }
+
+    interval = setInterval(() => {
+        seconds--;
+        document.getElementById("timer").innerHTML = "Tempo: " + seconds;
+    }, 1000);
+
+    timer = setTimeout(() => {
+        document.getElementById("pointsResult").innerHTML = points;
+        failModal.toggle();
+        clearInterval(interval);
+    }, 10000);
+    
 }
 
 function checkResult() {
@@ -305,14 +318,15 @@ function checkResult() {
         document.getElementById("points").innerHTML = "Punti: " + points;
         event.target.className = "btn border btn-lg button btn-success"
         lastPress = event.target;
-        setTimeout(() => {newFlag()}, 1300);
+        setTimeout(() => { newFlag() }, 1300);
     } else {
         event.target.className = "btn border btn-lg button btn-danger"
         lastPress = event.target;
         document.getElementById("pointsResult").innerHTML = points;
         failModal.toggle();
     }
-    
+    clearTimeout(timer);
+    clearInterval(interval);
 }
 
 function restart() {
@@ -326,7 +340,7 @@ function restart() {
 const sleepSync = (ms) => {
     const end = new Date().getTime() + ms;
     while (new Date().getTime() < end) { /* do nothing */ }
-  }
+}
 
 window.onload = function main() {
 
