@@ -143,7 +143,6 @@ const json = {
     "mc": "Principato di Monaco",
     "md": "Moldavia",
     "me": "Montenegro",
-    "mf": "Saint-Martin (Francia)",
     "mg": "Madagascar",
     "mh": "Isole Marshall",
     "mk": "Macedonia del Nord",
@@ -257,7 +256,9 @@ var guessed = [];
 var seconds = 5;
 const values = Object.values(json);
 const keys = Object.keys(json);
-var failModal = new bootstrap.Modal(document.getElementById("failModal"));
+var modal = new bootstrap.Modal(document.getElementById("modal"));
+var modalText = document.getElementById("modalText");
+var scoreResult = document.getElementById("scoreResult");
 var correctFlag, lastPress, timer, interval, points;
 
 function newFlag() {
@@ -272,11 +273,11 @@ function newFlag() {
     document.getElementById("button4").disabled = false;
     document.getElementById("timer").innerHTML = "Tempo: " + seconds;
     document.getElementById("points").innerHTML = "";
-    if (lastPress)
+    if (lastPress) {
         lastPress.className = "btn border btn-lg button btn-light";
-
+    }
     var randomKey = keys[parseInt(Math.random() * keys.length)];
-    while (guessed.includes(randomKey)) {
+    while (guessed.includes(json[randomKey])) {
         randomKey = keys[parseInt(Math.random() * keys.length)];
     }
     document.getElementById("flag").src = "flags/" + randomKey + ".png";
@@ -302,8 +303,8 @@ function newFlag() {
     }, 1000);
 
     timer = setTimeout(() => {
-        document.getElementById("scoreResult").innerHTML = score;
-        failModal.toggle();
+        scoreResult.innerHTML = score;
+        lose();
         clearInterval(interval);
     }, 5000);
 
@@ -323,18 +324,25 @@ function checkResult() {
         } else {
             points = 1;
         }
+        guessed.push(correctFlag)
         score += points;
         document.getElementById("score").innerHTML = "Punti: " + score;
         document.getElementById("points").innerHTML = "+ " + points;
-        event.target.className = "btn border btn-lg button btn-success"
-        lastPress = event.target;
-        setTimeout(() => { newFlag() }, 1300);
+        event.target.className = "btn border btn-lg button btn-success";
+        if (guessed.length === 251) {
+            scoreResult.innerHTML = score;
+            win();
+        } else {
+            setTimeout(() => { newFlag() }, 1300);
+        }
+
     } else {
         event.target.className = "btn border btn-lg button btn-danger"
         lastPress = event.target;
-        document.getElementById("scoreResult").innerHTML = score;
-        failModal.toggle();
+        scoreResult.innerHTML = score;
+        lose();
     }
+    lastPress = event.target;
     clearTimeout(timer);
     clearInterval(interval);
 }
@@ -343,13 +351,23 @@ function restart() {
     score = 0;
     document.getElementById("score").innerHTML = "Punti: " + score;
     guessed = [];
-    failModal.hide();
+    modal.hide();
     newFlag();
+}
+
+function lose() {
+    modalText.innerHTML = "Hai perso!";
+    modal.toggle();
+}
+
+function win() {
+    modalText.innerHTML = "Hai vinto!";
+    modal.toggle();
 }
 
 const sleepSync = (ms) => {
     const end = new Date().getTime() + ms;
-    while (new Date().getTime() < end) {}
+    while (new Date().getTime() < end) { }
 }
 
 window.onload = function main() {
