@@ -32,7 +32,6 @@ const json = {
     "br": "Brasile",
     "bs": "Bahamas",
     "bt": "Bhutan",
-    "bv": "Isola Bouvet",
     "bw": "Botswana",
     "by": "Bielorussia",
     "bz": "Belize",
@@ -98,7 +97,6 @@ const json = {
     "gw": "Guinea-Bissau",
     "gy": "Guyana",
     "hk": "Hong Kong",
-    "hm": "Isole Heard e McDonald",
     "hn": "Honduras",
     "hr": "Croazia",
     "ht": "Haiti",
@@ -202,7 +200,6 @@ const json = {
     "sg": "Singapore",
     "sh": "Sant'Elena, Ascensione e Tristan da Cunha",
     "si": "Slovenia",
-    "sj": "Svalbard e Jan Mayen",
     "sk": "Slovacchia",
     "sl": "Sierra Leone",
     "sm": "San Marino",
@@ -253,18 +250,20 @@ const json = {
 }
 var score = 0;
 var guessed = [];
+var positions = []
+var choices = [];
 var seconds = 5;
 const values = Object.values(json);
 const keys = Object.keys(json);
 var modal = new bootstrap.Modal(document.getElementById("modal"));
 var modalText = document.getElementById("modalText");
 var scoreResult = document.getElementById("scoreResult");
-var correctFlag, lastPress, timer, interval, points;
+var randomKey, correctFlag, lastPress, timer, interval, points;
 
 function newFlag() {
 
-    var positions = [1, 2, 3, 4];
-    var choices = [];
+    positions = [1, 2, 3, 4];
+    choices = [];
     seconds = 5;
 
     document.getElementById("button1").disabled = false;
@@ -276,10 +275,9 @@ function newFlag() {
     if (lastPress) {
         lastPress.className = "btn border btn-lg button btn-light";
     }
-    var randomKey = keys[parseInt(Math.random() * keys.length)];
-    while (guessed.includes(json[randomKey])) {
+    do {
         randomKey = keys[parseInt(Math.random() * keys.length)];
-    }
+    } while (guessed.includes(json[randomKey]))
     document.getElementById("flag").src = "flags/" + randomKey + ".png";
     correctFlag = json[randomKey];
     choices.push(correctFlag);
@@ -329,7 +327,7 @@ function checkResult() {
         document.getElementById("score").innerHTML = "Punti: " + score;
         document.getElementById("points").innerHTML = "+ " + points;
         event.target.className = "btn border btn-lg button btn-success";
-        if (guessed.length === 251) {
+        if (guessed.length === 248) {
             scoreResult.innerHTML = score;
             win();
         } else {
