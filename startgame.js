@@ -258,7 +258,7 @@ const keys = Object.keys(json);
 var modal = new bootstrap.Modal(document.getElementById("modal"));
 var modalText = document.getElementById("modalText");
 var scoreResult = document.getElementById("scoreResult");
-var randomKey, correctFlag, lastPress, timer, interval, points;
+var randomKey, correctFlag, correctButton, lastPress, timer, interval, points;
 
 function newFlag() {
 
@@ -274,6 +274,7 @@ function newFlag() {
     document.getElementById("points").innerHTML = "";
     if (lastPress) {
         lastPress.className = "btn border btn-lg button btn-light";
+        correctButton.className = "btn border btn-lg button btn-light";
     }
     do {
         randomKey = keys[parseInt(Math.random() * keys.length)];
@@ -283,7 +284,8 @@ function newFlag() {
     choices.push(correctFlag);
     var randomPosition = parseInt(Math.random() * positions.length) + 1;
     positions = positions.filter(p => p !== randomPosition);
-    document.getElementById("button" + randomPosition).innerHTML = correctFlag;
+    correctButton = document.getElementById("button" + randomPosition);
+    correctButton.innerHTML = correctFlag;
 
     while (choices.length < 4) {
         var randomValue = values[parseInt(Math.random() * values.length)];
@@ -336,6 +338,7 @@ function checkResult() {
 
     } else {
         event.target.className = "btn border btn-lg button btn-danger"
+        correctButton.className = "btn border btn-lg button btn-success";
         lastPress = event.target;
         scoreResult.innerHTML = score;
         lose();
