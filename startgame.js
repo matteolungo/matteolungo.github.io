@@ -8,7 +8,8 @@ const values = Object.values(codes);
 const keys = Object.keys(codes);
 let modalStart = new bootstrap.Modal(document.getElementById('modalStart'));
 let modalEnd = new bootstrap.Modal(document.getElementById('modalEnd'));
-let modalText = document.getElementById('modalText');
+let modalResult = document.getElementById('modalResult');
+let modalPoints = document.getElementById('modalPoints');
 let randomKey, correctFlag, correctButton, lastPress, timer, interval, points;
 
 function start() {
@@ -77,7 +78,7 @@ function checkResult(event) {
     document.getElementById('button4').disabled = true;
     let answer = event.target.innerHTML;
     if (answer === correctFlag) {
-        if (seconds > 4) {
+        if (seconds > 3) {
             points = 3;
         } else if (seconds > 2) {
             points = 2;
@@ -119,14 +120,16 @@ function restart() {
 function lose() {
     let audio = new Audio('./res/lose.mp3');
     audio.play();
-    modalText.innerHTML = `Hai perso!<br/>Hai totalizzato ${score} punti.`;
+    modalResult.innerHTML = '❌ Hai perso! ❌';
+    modalPoints.innerHTML = `<br/>Hai totalizzato ${score} punti`;
     modalEnd.toggle();
 }
 
 function win() {
     let audio = new Audio('./res/win.mp3');
     audio.play();
-    modalText.innerHTML = `Hai vinto!<br/>Hai totalizzato ${score} punti.`;
+    modalResult.innerHTML = '🎉 Hai vinto! 🎉';
+    modalPoints.innerHTML = `<br/>Hai totalizzato ${score} punti`;
     modalEnd.toggle();
 }
 
@@ -141,7 +144,7 @@ window.onload = function main() {
     document.getElementById('button4').addEventListener('click', checkResult);
     document.getElementById('restartButton').addEventListener('click', restart);
     document.getElementById('startButton').addEventListener('click', start);
-    
+
     modalStart.toggle();
 }
 
