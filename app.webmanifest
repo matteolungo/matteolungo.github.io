@@ -2,7 +2,7 @@
     "name": "Guess The Flag",
     "icons":[
         {
-           "src": ".res/icon.png",
+           "src": "res/icon.png",
            "type": "image/png",
            "sizes": "512x512"
         }
