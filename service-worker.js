@@ -5,7 +5,7 @@ const PRECACHE = 'precache-v1';
 const RUNTIME = 'runtime';
 
 // A list of local resources we always want to be cached.
-const PRECACHE_URLS = [
+let PRECACHE_URLS = [
   'index.html',
   './', // Alias for index.html
   'style.css',
@@ -57,5 +57,23 @@ self.addEventListener('fetch', event => {
         });
       })
     );
+  }
+});
+
+const KEY = 'key';
+self.addEventListener('message', event => {
+  if (event.origin.startsWith(self.location.origin)) {
+    if (event.data.type === 'CACHE_URLS') {
+      event.waitUntil(
+        caches.open(KEY)
+          .then((cache) => {
+            event.waitUntil(
+              caches.open(PRECACHE)
+                .then(cache => cache.addAll(event.data.payload))
+                .then(self.skipWaiting())
+            );
+          })
+      );
+    }
   }
 });

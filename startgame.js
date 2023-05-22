@@ -139,17 +139,12 @@ function win() {
 }
 
 window.onload = function main() {
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('service-worker.js');
-    }
-
     document.getElementById('button1').addEventListener('click', checkResult);
     document.getElementById('button2').addEventListener('click', checkResult);
     document.getElementById('button3').addEventListener('click', checkResult);
     document.getElementById('button4').addEventListener('click', checkResult);
     document.getElementById('restartButton').addEventListener('click', restart);
     document.getElementById('startButton').addEventListener('click', start);
-
     modalStart.toggle();
 }
 
