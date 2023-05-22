@@ -10,11 +10,11 @@ let PRECACHE_URLS = [
   './', // Alias for index.html
   'style.css',
   'startgame.js',
-  './res/icon-192x192.png',
-  './res/icon-512x512.png',
-  './res/win.mp3',
-  './res/lose.mp3',
-  './res/correct.mp3',
+  'res/icon-192x192.png',
+  'res/icon-512x512.png',
+  'res/win.mp3',
+  'res/lose.mp3',
+  'res/correct.mp3',
 ];
 
 // The install handler takes care of precaching the resources we always need.
