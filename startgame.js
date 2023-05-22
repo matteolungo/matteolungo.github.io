@@ -96,9 +96,7 @@ function checkResult(event) {
         if (guessed.length === 248) {
             win();
         } else {
-            let audio = new Audio();
-            audio.crossOrigin = 'anonymous';
-            audio.src = './res/correct.mp3';
+            const audio = new Audio('res/correct.mp3');
             audio.play();
             setTimeout(() => { newFlag() }, 1000);
         }
@@ -125,9 +123,7 @@ function restart() {
 }
 
 function lose() {
-    let audio = new Audio();
-    audio.crossOrigin = 'anonymous';
-    audio.src = './res/lose.mp3';
+    const audio = new Audio('res/lose.mp3');
     audio.play();
     modalResult.innerHTML = '❌ Hai perso! ❌';
     modalPoints.innerHTML = `<br/>Hai totalizzato ${score} punti`;
@@ -135,9 +131,7 @@ function lose() {
 }
 
 function win() {
-    let audio = new Audio();
-    audio.crossOrigin = 'anonymous';
-    audio.src = './res/win.mp3';
+    const audio = new Audio('res/win.mp3');
     audio.play();
     modalResult.innerHTML = '🎉 Hai vinto! 🎉';
     modalPoints.innerHTML = `<br/>Hai totalizzato ${score} punti`;
