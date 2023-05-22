@@ -35,8 +35,10 @@ function newFlag() {
     document.getElementById('timer').innerHTML = 'Tempo: ' + seconds;
     document.getElementById('points').innerHTML = '';
     if (lastPress) {
-        lastPress.className = 'btn border btn-lg button btn-light';
-        correctButton.className = 'btn border btn-lg button btn-light';
+        lastPress.classList.remove('btn-success', 'btn-danger');
+        lastPress.classList.add('btn-light');
+        correctButton.classList.remove('btn-success');
+        correctButton.classList.add('btn-light');
     }
     do {
         randomKey = keys[parseInt(Math.random() * keys.length)];
@@ -89,7 +91,8 @@ function checkResult(event) {
         score += points;
         document.getElementById('score').innerHTML = 'Punti: ' + score;
         document.getElementById('points').innerHTML = '+ ' + points;
-        event.target.className = 'btn border btn-lg button btn-success';
+        event.target.classList.remove('btn-light');
+        event.target.classList.add('btn-success');
         if (guessed.length === 248) {
             win();
         } else {
@@ -99,8 +102,10 @@ function checkResult(event) {
         }
 
     } else {
-        event.target.className = 'btn border btn-lg button btn-danger'
-        correctButton.className = 'btn border btn-lg button btn-success';
+        event.target.classList.remove('btn-light');
+        event.target.classList.add('btn-danger');
+        correctButton.classList.remove('btn-light');
+        correctButton.classList.add('btn-success');
         lastPress = event.target;
         lose();
     }
@@ -134,9 +139,9 @@ function win() {
 }
 
 window.onload = function main() {
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('service-worker.js');
-    }
+    // if ('serviceWorker' in navigator) {
+    //     navigator.serviceWorker.register('service-worker.js');
+    // }
 
     document.getElementById('button1').addEventListener('click', checkResult);
     document.getElementById('button2').addEventListener('click', checkResult);
