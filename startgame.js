@@ -14,10 +14,12 @@ let randomKey, correctFlag, correctButton, lastPress, timer, interval, points;
 
 function start() {
     modalStart.hide();
+    
     let buttons = document.getElementsByClassName('button');
     for (const b of buttons) {
         b.style.visibility = 'visible';
     }
+
     let flag = document.getElementById('flag');
     flag.style.visibility = 'visible';
     newFlag();
@@ -34,15 +36,18 @@ function newFlag() {
     document.getElementById('button4').disabled = false;
     document.getElementById('timer').innerHTML = 'Tempo: ' + seconds;
     document.getElementById('points').innerHTML = '';
+
     if (lastPress) {
-        lastPress.classList.remove('btn-success', 'btn-danger');
+        lastPress.classList.remove('btn-success', 'btn-danger',);
         lastPress.classList.add('btn-light');
         correctButton.classList.remove('btn-success');
         correctButton.classList.add('btn-light');
     }
+
     do {
         randomKey = keys[parseInt(Math.random() * keys.length)];
     } while (guessed.includes(codes[randomKey]))
+
     document.getElementById('flag').src = 'flags/' + randomKey + '.png';
     correctFlag = codes[randomKey];
     choices.push(correctFlag);
@@ -61,6 +66,8 @@ function newFlag() {
         }
     }
 
+    document.getElementById('flag').click();
+
     interval = setInterval(() => {
         seconds--;
         document.getElementById('timer').innerHTML = 'Tempo: ' + seconds;
@@ -78,6 +85,7 @@ function checkResult(event) {
     document.getElementById('button2').disabled = true;
     document.getElementById('button3').disabled = true;
     document.getElementById('button4').disabled = true;
+
     let answer = event.target.innerHTML;
     if (answer === correctFlag) {
         if (seconds > 3) {
@@ -100,7 +108,6 @@ function checkResult(event) {
             audio.play();
             setTimeout(() => { newFlag() }, 1000);
         }
-
     } else {
         event.target.classList.remove('btn-light');
         event.target.classList.add('btn-danger');
@@ -109,6 +116,7 @@ function checkResult(event) {
         lastPress = event.target;
         lose();
     }
+
     lastPress = event.target;
     clearTimeout(timer);
     clearInterval(interval);
@@ -147,4 +155,3 @@ window.onload = function main() {
     document.getElementById('startButton').addEventListener('click', start);
     modalStart.toggle();
 }
-
