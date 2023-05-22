@@ -60,19 +60,13 @@ self.addEventListener('fetch', event => {
   }
 });
 
-const KEY = 'key';
 self.addEventListener('message', event => {
   if (event.origin.startsWith(self.location.origin)) {
     if (event.data.type === 'CACHE_URLS') {
       event.waitUntil(
-        caches.open(KEY)
-          .then((cache) => {
-            event.waitUntil(
-              caches.open(PRECACHE)
-                .then(cache => cache.addAll(event.data.payload))
-                .then(self.skipWaiting())
-            );
-          })
+        caches.open(PRECACHE)
+          .then(cache => cache.addAll(event.data.payload))
+          .then(self.skipWaiting())
       );
     }
   }
