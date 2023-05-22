@@ -99,6 +99,7 @@ function checkResult(event) {
             let audio = new Audio();
             audio.crossOrigin = 'anonymous';
             audio.src = './res/correct.mp3';
+            audio.play();
             setTimeout(() => { newFlag() }, 1000);
         }
 
