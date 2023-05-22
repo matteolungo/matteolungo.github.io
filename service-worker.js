@@ -1,82 +1,109 @@
-// Names of the two caches used in this version of the service worker.
-// Change to v2, etc. when you update any of the local resources, which will
-// in turn trigger the install event again.
-const PRECACHE = 'precache-v1';
-const RUNTIME = 'runtime';
-
-// A list of local resources we always want to be cached.
-let PRECACHE_URLS = [
-  'index.html',
-  './', // Alias for index.html
-  'style.css',
-  'startgame.js',
-  'res/icon-192x192.png',
-  'res/icon-512x512.png',
-  'res/win.mp3',
-  'res/lose.mp3',
-  'res/correct.mp3',
-];
-
-// The install handler takes care of precaching the resources we always need.
+'use strict';
+let config = {
+  version: 'versione1::',
+  precachingItems: [
+    './index.html',
+    '/', // Alias for index.html
+    'style.css',
+    'startgame.js',
+    './res/icon-192x192.png',
+    './res/icon-512x512.png',
+    './res/win.mp3',
+    './res/lose.mp3',
+    './res/correct.mp3',
+  ],
+  blacklistCacheItems: [
+    '/service-worker.js'
+  ],
+  offlineImage: '<svg role="img" aria-labelledby="offline-title"'
+    + ' viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">'
+    + '<title id="offline-title">Offline</title>'
+    + '<g fill="none" fill-rule="evenodd"><path fill="#D8D8D8" d="M0 0h400v300H0z"/>'
+    + '<text fill="#9B9B9B" font-family="Times New Roman,Times,serif" font-size="72" font-weight="bold">'
+    + '<tspan x="93" y="172">offline</tspan></text></g></svg>',
+  offlinePage: '/offline.html'
+};
+function cacheName(key, opts) {
+  return `${opts.version}${key}`;
+}
+function addToCache(cacheKey, request, response) {
+  if (response.ok) {
+    let copy = response.clone();
+    caches.open(cacheKey).then(cache => { cache.put(request, copy); });
+  }
+  return response;
+}
+function fetchFromCache(event) {
+  return caches.match(event.request).then(response => {
+    if (!response) {
+      throw Error(`${event.request.url} not found in cache`);
+    }
+    return response;
+  });
+}
+function offlineResponse(resourceType, opts) {
+  if (resourceType === 'image')
+    return new Response(opts.offlineImage, { headers: { 'Content-Type': 'image/svg+xml' } });
+  if (resourceType === 'content')
+    return caches.match(opts.offlinePage);
+  return undefined;
+}
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(PRECACHE)
-      .then(cache => cache.addAll(PRECACHE_URLS))
-      .then(self.skipWaiting())
+    caches.open(cacheName('static', config)).then(cache => cache.addAll(config.precachingItems))
+      .then(() => self.skipWaiting())
   );
 });
-
-// The activate handler takes care of cleaning up old caches.
 self.addEventListener('activate', event => {
-  const currentCaches = [PRECACHE, RUNTIME];
+  function clearCacheIfDifferent(event, opts) {
+    return caches.keys().then(cacheKeys => {
+      let oldCacheKeys = cacheKeys.filter(key => key.indexOf(opts.version) !== 0);
+      let deletePromises = oldCacheKeys.map(oldKey => caches.delete(oldKey));
+      return Promise.all(deletePromises);
+    });
+  }
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return cacheNames.filter(cacheName => !currentCaches.includes(cacheName));
-    }).then(cachesToDelete => {
-      return Promise.all(cachesToDelete.map(cacheToDelete => {
-        return caches.delete(cacheToDelete);
-      }));
-    }).then(() => self.clients.claim())
+    clearCacheIfDifferent(event, config).then(() => self.clients.claim())
   );
 });
-
-// The fetch handler serves responses for same-origin resources from a cache.
-// If no response is found, it populates the runtime cache with the response
-// from the network before returning it to the page.
 self.addEventListener('fetch', event => {
-  // Skip cross-origin requests, like those for Google Analytics.
-  if (event.request.url.startsWith(self.location.origin)) {
+  let request = event.request;
+  let acceptHeader = request.headers.get('Accept');
+  let url = new URL(request.url);
+  let resourceType = 'static';
+  let cacheKey;
+  if (request.method !== 'GET') {
+    return;
+  }
+  if (url.origin !== self.location.origin) {
+    return;
+  }
+  if (config.blacklistCacheItems.length > 0 && config.blacklistCacheItems.indexOf(url.pathname) >= 0) {
+    return;
+  }
+  if (acceptHeader.indexOf('text/html') !== -1) {
+    resourceType = 'content';
+  }
+  else if (acceptHeader.indexOf('image') !== -1) {
+    resourceType = 'image';
+  }
+  cacheKey = cacheName(resourceType, config);
+  // Network First Strategy 
+  if (resourceType === 'content') {
     event.respondWith(
-      caches.match(event.request).then(cachedResponse => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-
-        return caches.open(RUNTIME).then(cache => {
-          return fetch(event.request).then(response => {
-            // Put a copy of the response in the runtime cache.
-            if (response.status !== 206) {
-              return cache.put(event.request, response.clone()).then(() => {
-                return response;
-              });
-            } else {
-              return new Response();
-            }
-          });
-        });
-      })
+      fetch(request)
+        .then(response => addToCache(cacheKey, request, response))
+        .catch(() => fetchFromCache(event))
+        .catch(() => offlineResponse(resourceType, config))
     );
   }
-});
-
-self.addEventListener('message', event => {
-  if (event.origin.startsWith(self.location.origin)) {
-    if (event.data.type === 'CACHE_URLS') {
-      event.waitUntil(
-        caches.open(PRECACHE)
-          .then(cache => cache.addAll(event.data.payload))
-          .then(self.skipWaiting())
-      );
-    }
+  // Cache First Strategy
+  else {
+    event.respondWith(
+      fetchFromCache(event)
+        .catch(() => fetch(request))
+        .then(response => addToCache(cacheKey, request, response))
+        .catch(() => offlineResponse(resourceType, config))
+    );
   }
-});
+}); 
