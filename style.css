@@ -55,7 +55,7 @@ body {
     background-color: #EEEEEE !important;
     padding-top: 28vh;
     padding-bottom: 25vh;
-    border-radius: none !important;
+    border-radius: 0px !important;
 }
 
 p {

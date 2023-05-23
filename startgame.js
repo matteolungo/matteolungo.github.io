@@ -50,6 +50,8 @@ function newFlag() {
     if (lastPress) {
         lastPress.classList.remove('btn-success', 'btn-danger',);
         lastPress.classList.add('btn-light');
+    }
+    if (correctButton) {
         correctButton.classList.remove('btn-success');
         correctButton.classList.add('btn-light');
     }
