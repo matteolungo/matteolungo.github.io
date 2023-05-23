@@ -92,6 +92,9 @@ function newFlag() {
     }, 1000);
 
     timer = setTimeout(() => {
+        for (const b of buttons) {
+            b.disabled = true;
+        }
         correctButton.classList.remove('btn-light');
         correctButton.classList.add('btn-success');
         lose();
