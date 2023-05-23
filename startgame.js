@@ -40,6 +40,7 @@ function newFlag() {
     
     for (const b of buttons) {
         b.disabled = false;
+        b.classList.remove('smallText');
     }
 
     eScore.innerHTML = 'Punti: ' + score;
@@ -64,6 +65,9 @@ function newFlag() {
     positions = positions.filter(p => p !== randomPosition);
     correctButton = document.getElementById('button' + randomPosition);
     correctButton.innerHTML = correctFlag;
+    if (correctFlag.length > 30) {
+        correctButton.classList.add('smallText');
+    }
 
     while (choices.length < 4) {
         let randomValue = values[parseInt(Math.random() * values.length)];
@@ -72,6 +76,9 @@ function newFlag() {
             let randomPosition = positions[parseInt(Math.random() * positions.length)];
             positions = positions.filter(p => p !== randomPosition);
             document.getElementById('button' + randomPosition).innerHTML = randomValue;
+            if (randomValue.length > 30) {
+                document.getElementById('button' + randomPosition).classList.add('smallText');
+            }
         }
     }
 
