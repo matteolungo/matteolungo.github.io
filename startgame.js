@@ -168,6 +168,7 @@ window.onload = function main() {
     for (const b of buttons) {
         if (hasTouch()) {
             b.classList.add('noHover');
+            b.classList.add('mobileButton');
         }
         b.addEventListener('click', checkResult);
     }

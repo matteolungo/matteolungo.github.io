@@ -18,6 +18,10 @@ body {
     visibility: hidden;
 }
 
+.mobileButton {
+    height: 120px !important;
+}
+
 .score {
     margin-left: 15px;
     margin-top: 5px;
