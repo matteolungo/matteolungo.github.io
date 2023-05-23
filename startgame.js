@@ -37,7 +37,6 @@ function newFlag() {
     choices = [];
     seconds = 5;
 
-    
     for (const b of buttons) {
         b.disabled = false;
         b.classList.remove('smallText');
@@ -127,7 +126,7 @@ function checkResult(event) {
             win();
         } else {
             const audio = new Audio('res/correct.mp3');
-            audio.play();
+            audio.play().catch((err) => console.log(err));;
             setTimeout(() => { newFlag() }, 1000);
         }
     } else {
@@ -154,7 +153,7 @@ function restart() {
 
 function lose() {
     const audio = new Audio('res/lose.mp3');
-    audio.play();
+    audio.play().catch((err) => console.log(err));;
     if (seconds === 0) {
         modalResult.innerHTML = '❌ Tempo Scaduto! ❌';
     } else {
@@ -166,7 +165,7 @@ function lose() {
 
 function win() {
     const audio = new Audio('res/win.mp3');
-    audio.play();
+    audio.play().catch((err) => console.log(err));
     modalResult.innerHTML = '🎉 Hai vinto! 🎉';
     modalPoints.innerHTML = `<br/>Hai totalizzato ${score} punti`;
     modalEnd.toggle();
