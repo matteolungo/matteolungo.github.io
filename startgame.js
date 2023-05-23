@@ -23,6 +23,10 @@ let flag = document.getElementById('flag');
 
 function start() {
     modalStart.hide();
+    modalEnd.hide();
+    score = 0;
+    eScore.innerHTML = score;
+    guessed = [];
 
     for (const b of buttons) {
         b.style.visibility = 'visible';
@@ -42,8 +46,8 @@ function newFlag() {
         b.classList.remove('smallText');
     }
 
-    eScore.innerHTML = 'Punti: ' + score;
-    eTimer.innerHTML = 'Tempo: ' + seconds;
+    eScore.innerHTML = score;
+    eTimer.innerHTML = seconds;
     ePoints.innerHTML = '';
 
     if (lastPress) {
@@ -87,7 +91,7 @@ function newFlag() {
 
     interval = setInterval(() => {
         seconds--;
-        eTimer.innerHTML = 'Tempo: ' + seconds;
+        eTimer.innerHTML = seconds;
     }, 1000);
 
     timer = setTimeout(() => {
@@ -118,8 +122,8 @@ function checkResult(event) {
         }
         guessed.push(correctFlag)
         score += points;
-        eScore.innerHTML = 'Punti: ' + score;
-        ePoints.innerHTML = '+' + points;
+        eScore.innerHTML = score;
+        ePoints.innerHTML = `+${points}`;
         event.target.classList.remove('btn-light');
         event.target.classList.add('btn-success');
         if (guessed.length === 248) {
@@ -141,14 +145,6 @@ function checkResult(event) {
     lastPress = event.target;
     clearTimeout(timer);
     clearInterval(interval);
-}
-
-function restart() {
-    score = 0;
-    eScore.innerHTML = 'Punti: ' + score;
-    guessed = [];
-    modalEnd.hide();
-    newFlag();
 }
 
 function lose() {
@@ -186,7 +182,7 @@ window.onload = function main() {
         b.addEventListener('click', checkResult);
     }
 
-    document.getElementById('restartButton').addEventListener('click', restart);
+    document.getElementById('restartButton').addEventListener('click', start);
     document.getElementById('startButton').addEventListener('click', start);
     modalStart.toggle();
 }
