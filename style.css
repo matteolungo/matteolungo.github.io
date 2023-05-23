@@ -52,6 +52,10 @@ p {
     background-color: #f8f9fa !important;
 }
 
+.noEvent {
+    pointer-events: none;
+}
+
 @font-face {
     font-family: 'hey_comic_regular';
     src: url('./fonts/hey_comic-webfont.woff2') format('woff2'),

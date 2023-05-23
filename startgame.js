@@ -141,7 +141,7 @@ function restart() {
 function lose() {
     const audio = new Audio('res/lose.mp3');
     audio.play();
-    modalResult.innerHTML = '❌ Hai perso! ❌';
+    modalResult.innerHTML = '❌ Oh no! ❌';
     modalPoints.innerHTML = `<br/>Hai totalizzato ${score} punti`;
     modalEnd.toggle();
 }
