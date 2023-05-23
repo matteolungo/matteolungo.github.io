@@ -106,7 +106,7 @@ function checkResult(event) {
         guessed.push(correctFlag)
         score += points;
         eScore.innerHTML = 'Punti: ' + score;
-        ePoints.innerHTML = '+ ' + points;
+        ePoints.innerHTML = '+' + points;
         event.target.classList.remove('btn-light');
         event.target.classList.add('btn-success');
         if (guessed.length === 248) {
@@ -141,7 +141,11 @@ function restart() {
 function lose() {
     const audio = new Audio('res/lose.mp3');
     audio.play();
-    modalResult.innerHTML = '❌ Oh no! ❌';
+    if (seconds === 0) {
+        modalResult.innerHTML = '❌ Tempo Scaduto! ❌';
+    } else {
+        modalResult.innerHTML = '❌ Sbagliato! ❌';
+    }
     modalPoints.innerHTML = `<br/>Hai totalizzato ${score} punti`;
     modalEnd.toggle();
 }

@@ -53,6 +53,9 @@ p {
     font-family: 'hey_comic_regular', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+span {
+    font-family: 'hey_comic_regular', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
 .btn-light.noHover {
     background-color: #f8f9fa !important;
