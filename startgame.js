@@ -90,6 +90,8 @@ function newFlag() {
     }, 1000);
 
     timer = setTimeout(() => {
+        correctButton.classList.remove('btn-light');
+        correctButton.classList.add('btn-success');
         lose();
         clearInterval(interval);
     }, 5000);
