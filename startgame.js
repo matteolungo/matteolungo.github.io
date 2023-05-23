@@ -2,10 +2,10 @@ import codes from './codes.json' assert { type: 'json' };
 
 const values = Object.values(codes);
 const keys = Object.keys(codes);
-let score = 0;
 let guessed = [];
 let positions = []
 let choices = [];
+let score = 0;
 let seconds = 5;
 let randomKey, correctFlag, correctButton, lastPress, timer, interval, points;
 
