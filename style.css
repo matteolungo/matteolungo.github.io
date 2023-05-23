@@ -51,9 +51,10 @@ body {
     backdrop-filter: blur(8px);
 }
 
-.marginStart {
-    padding-top: 10rem;
-    padding-bottom: 10rem;
+.modalStart {
+    background-color: #EEEEEE !important;
+    padding-top: 28vh;
+    padding-bottom: 25vh;
     border-radius: none !important;
 }
 
