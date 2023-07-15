@@ -1,6 +1,7 @@
 body {
     background-color: #EEEEEE !important;
     backdrop-filter: blur(7px);
+    overflow: hidden;
 }
 
 p {
@@ -14,6 +15,11 @@ span {
     font-size: calc(1.375rem + 1.5vw)!important;
     pointer-events: none;
     user-select: none;
+}
+
+#container {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .flag {
