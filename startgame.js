@@ -1,4 +1,4 @@
-import codes from './codes.json' assert { type: 'json' };
+import codes from './codes.json' with { type: 'json' };
 
 const values = Object.values(codes);
 const keys = Object.keys(codes);
@@ -18,8 +18,6 @@ let eTimer = document.getElementById('timer');
 let ePoints = document.getElementById('points');
 let eScore = document.getElementById('score');
 let flag = document.getElementById('flag');
-
-
 
 function start() {
     modalStart.hide();
