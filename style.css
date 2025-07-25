@@ -26,6 +26,19 @@ span {
     user-select: none;
 }
 
+.flag-container {
+    height: 30vh !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (min-width: 768px) {
+    .flag-container {
+        height: 50vh !important;
+    }
+}
+
 .button {
     width: 300px;
     height: 150px;
