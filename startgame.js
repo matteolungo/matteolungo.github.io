@@ -11,6 +11,7 @@ let randomKey, correctFlag, correctButton, lastPress, timer, interval, points;
 
 let modalStart = new bootstrap.Modal(document.getElementById('modalStart'));
 let modalEnd = new bootstrap.Modal(document.getElementById('modalEnd'));
+let modalPWA = new bootstrap.Modal(document.getElementById('modalPWA'));
 let modalResult = document.getElementById('modalResult');
 let modalPoints = document.getElementById('modalPoints');
 let buttons = document.getElementsByClassName('button');
@@ -165,7 +166,30 @@ function win() {
     modalEnd.toggle();
 }
 
+function closePWA() {
+    modalPWA.hide();
+}
+
 window.onload = function main() {
+    function isPWA() {
+        // iOS
+        if (('standalone' in window.navigator) && (window.navigator.standalone)) {
+            return true;
+        }
+        // Others
+        const displayModes = ['standalone', 'fullscreen', 'minimal-ui'];
+        for (const element of displayModes) {
+            if (window.matchMedia(`(display-mode: ${element})`).matches) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    if (!isPWA() && hasTouch()) {
+        modalPWA.toggle();
+    }
+
     function hasTouch() {
         return 'ontouchstart' in document.documentElement
             || navigator.maxTouchPoints > 0
@@ -182,5 +206,6 @@ window.onload = function main() {
 
     document.getElementById('restartButton').addEventListener('click', start);
     document.getElementById('startButton').addEventListener('click', start);
+    document.getElementById('closeButton').addEventListener('click', closePWA);
     modalStart.toggle();
 }
