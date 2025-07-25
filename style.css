@@ -17,11 +17,6 @@ span {
     user-select: none;
 }
 
-#container {
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
 .flag {
     border-radius: 15px;
     max-height: 100%;
