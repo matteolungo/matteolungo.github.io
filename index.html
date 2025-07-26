@@ -13,7 +13,7 @@
 
 <body>
     <div id="container" class="container-md vh-100 d-flex flex-column justify-content-around">
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between noClick">
             <div>
                 <span>Punti: </span>
                 <span id="score"></span>
@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <div class="flag-container mx-auto mb-4 d-flex align-items-center justify-content-center">
+        <div class="flag-container mx-auto mb-4 d-flex align-items-center justify-content-center noClick">
             <img id="flag" class="flag shadow-sm " alt="flag">
         </div>
 
@@ -45,7 +45,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="modalEnd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal fade noClick" id="modalEnd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
             <div class="modal-dialog" style="margin-top: 32vh">
                 <div class="modal-content">
                     <div class="modal-body mx-auto">
@@ -60,14 +60,14 @@
             </div>
         </div>
 
-        <div class="modal" id="modalStart" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal noClick" id="modalStart" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered modal-xlg modal-fullscreen">
                 <div class="modal-content modalStart">
                     <div class="mx-auto mb-5">
                         <img src="res/icon-512x512.png" class="mt-3" style="max-width: 150px;" alt="icon">
                     </div>
                     <div class="mx-auto mb-3">
-                        <p class="fs-3 text-center ">Benvenuto in Guess the Flag</p>
+                        <p class="fs-3 text-center">Benvenuto in Guess the Flag</p>
                     </div>
                     <div class="mx-auto mt-3 mb-4">
                         <button id="startButton" type="button" class="btn btn-lg btn-dark mx-auto"
@@ -77,12 +77,12 @@
             </div>
         </div>
 
-        <div class="modal fade" id="modalPWA" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal fade noClick" id="modalPWA" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
             <div class="modal-dialog" style="margin-top: 32vh">
                 <div class="modal-content">
                     <div class="modal-body mx-auto">
                         <p id="modalResult" class="fs-1 mb-3 text-center">⚠️ Attenzione ⚠️</p>
-                        <p id="modalPoints" class="fs-3 text-center ">Su dispositivi mobili è consigliato installare l'app<br>(Aggiungi alla schermata Home)</p>
+                        <p id="modalPoints" class="fs-3 text-center">Su dispositivi mobili è consigliato installare l'app<br>(Aggiungi alla schermata Home)</p>
                     </div>
                     <div class="mx-auto mb-4">
                         <button id="closeButton" type="button" class="btn btn-lg btn-danger mx-auto"
@@ -93,7 +93,7 @@
         </div>
     </div>
 
-    <script type="module" src="startgame.js" />
+    <script type="module" src="startgame.js"></script>
 
     <script type="module">
         import codes from './codes.json' with { type: 'json' };

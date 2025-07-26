@@ -41,7 +41,7 @@ function newFlag() {
     seconds = 5;
 
     for (const b of buttons) {
-        b.disabled = false;
+        b.classList.remove('noClick')
         b.classList.remove('smallText');
     }
 
@@ -95,7 +95,7 @@ function newFlag() {
 
     timer = setTimeout(() => {
         for (const b of buttons) {
-            b.disabled = true;
+            b.classList.remove('noClick')
         }
         correctButton.classList.remove('btn-light');
         correctButton.classList.add('btn-success');
@@ -107,7 +107,7 @@ function newFlag() {
 
 function checkResult(event) {
     for (const b of buttons) {
-        b.disabled = true;
+        b.classList.add('noClick')
     }
 
     let answer = event.target.innerHTML;
