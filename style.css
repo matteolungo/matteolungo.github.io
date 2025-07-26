@@ -13,6 +13,12 @@ span {
     font-size: calc(1.375rem + 1.5vw)!important;
 }
 
+@media (max-width: 768px) {
+    .header {
+        margin-top: -3vh;
+    }
+}
+
 .noClick {
     pointer-events: none;
     user-select: none;
