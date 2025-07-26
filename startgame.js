@@ -23,6 +23,7 @@ let flag = document.getElementById('flag');
 function start() {
     modalStart.hide();
     modalEnd.hide();
+    setThemeColor('#EEEEEE');
     score = 0;
     eScore.innerHTML = score;
     guessed = [];
@@ -156,6 +157,7 @@ function lose() {
     }
     modalPoints.innerHTML = `<br/>Hai totalizzato ${score} punti`;
     modalEnd.toggle();
+    setThemeColor('#777777');
 }
 
 function win() {
@@ -164,10 +166,23 @@ function win() {
     modalResult.innerHTML = '🎉 Hai vinto! 🎉';
     modalPoints.innerHTML = `<br/>Hai totalizzato ${score} punti`;
     modalEnd.toggle();
+    setThemeColor('#777777');
 }
 
 function closePWA() {
     modalPWA.hide();
+}
+
+function setThemeColor(color) {
+    let themeMetaTag = document.querySelector('meta[name="theme-color"]');
+
+    if (!themeMetaTag) {
+        themeMetaTag = document.createElement('meta');
+        themeMetaTag.name = 'theme-color';
+        document.head.appendChild(themeMetaTag);
+    }
+
+    themeMetaTag.setAttribute('content', color);
 }
 
 window.onload = function main() {
