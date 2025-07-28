@@ -100,7 +100,8 @@ function newFlag() {
         }
         correctButton.classList.remove('btn-light');
         correctButton.classList.add('btn-success');
-        lose();
+        lose(true);
+        eTimer.innerHTML = 0;
         clearInterval(interval);
     }, 5000);
 
@@ -147,10 +148,10 @@ function checkResult(event) {
     clearInterval(interval);
 }
 
-function lose() {
+function lose(isTimeExpired = false) {
     const audio = new Audio('res/lose.mp3');
     audio.play().catch((err) => console.log(err));;
-    if (seconds === 0) {
+    if (isTimeExpired) {
         modalResult.innerHTML = '❌ Tempo Scaduto! ❌';
     } else {
         modalResult.innerHTML = '❌ Sbagliato! ❌';
