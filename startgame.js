@@ -100,7 +100,12 @@ function newFlag() {
         }
         correctButton.classList.remove('btn-light');
         correctButton.classList.add('btn-success');
-        lose(true);
+        setTimeout(() => {
+            for (const b of buttons) {
+                b.classList.add('noClick')
+            }
+            lose(true)
+        }, 1000);
         eTimer.innerHTML = 0;
         clearInterval(interval);
     }, 5000);
@@ -140,7 +145,7 @@ function checkResult(event) {
         correctButton.classList.remove('btn-light');
         correctButton.classList.add('btn-success');
         lastPress = event.target;
-        lose();
+        setTimeout(() => { lose() }, 1000);
     }
 
     lastPress = event.target;
