@@ -100,10 +100,10 @@ function newFlag() {
         }
         correctButton.classList.remove('btn-light');
         correctButton.classList.add('btn-success');
+        for (const b of buttons) {
+            b.classList.add('noClick')
+        }
         setTimeout(() => {
-            for (const b of buttons) {
-                b.classList.add('noClick')
-            }
             lose(true)
         }, 1000);
         eTimer.innerHTML = 0;
